@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tip Farmer</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+</head>
+<body>
+    <h1>Tip the Farmer</h1>
+    <script>
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+
+        const contractAddress = "0xAa649352d0Efdd761637a88aA52D4074280F98De"; // Replace with your contract address
+        const contractABI = [ [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_farmer",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amountTipped",
+				"type": "uint256"
+			}
+		],
+		"name": "NewTip",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "tip",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "farmerAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amountWithdrawn",
+				"type": "uint256"
+			}
+		],
+		"name": "Withdrawal",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "farmer",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "tips",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+] ]; // Copy and paste your ABI here
+        const contract = new ethers.Contract(contractAddress, contractABI, signer);
+
+        async function tipFarmer() {
+            try {
+                await contract.tip({ value: ethers.utils.parseEther("0.005") });
+                alert("Tip sent successfully!");
+            } catch (error) {
+                console.error(error);
+                alert("Tip failed.");
+            }
+        }
+
+        tipFarmer(); // Runs the tip function automatically when users visit the page
+    </script>
+</body>
+</html>
